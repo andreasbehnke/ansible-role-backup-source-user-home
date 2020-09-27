@@ -1,0 +1,8 @@
+errormessages=$(rsync -a --exclude-from=/home/***TODO***/bin/backup/exclude_files.lst /home/***TODO*** ***TODO***@***TODO***:backup 2>&1)
+
+if [ -z "$errormessages" ]
+then
+    notify-send "Daily home backup" "Daily home backup finished successful" --icon=dialog-information
+else
+    notify-send "Daily home backup failed" "$errormessages" --icon=dialog-warning
+fi
