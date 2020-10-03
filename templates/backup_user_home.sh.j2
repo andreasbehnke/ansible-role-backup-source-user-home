@@ -1,4 +1,4 @@
-errormessages=$(rsync -a --exclude-from=/home/***TODO***/bin/backup/exclude_files.lst /home/***TODO*** ***TODO***@***TODO***:backup 2>&1)
+errormessages=$(rsync -a --exclude-from=/home/{{item.user_name}}/bin/backup/exclude_files.lst /home/{{item.user_name}} {{item.user_remote_name}}@{{item.backup_target_host}}:backup 2>&1)
 
 if [ -z "$errormessages" ]
 then

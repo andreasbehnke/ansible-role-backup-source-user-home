@@ -4,3 +4,29 @@
     apt: 
       name: 'rsync' 
       state: 'latest'
+
+  - name: ensure user bin/backup path
+    become: yes
+    file:
+      path: "/home/{{item.user_name}}/bin/backup"
+      owner: "{{item.user_name}}"
+      group: "{{item.user_name}}"
+      state: "directory"
+    with_items: "{{ backup_source_user_homes }}"
+
+  - name: install backup script
+    become: yes
+    template:
+      dest: "/home/{{item.user_name}}/bin/backup/backup_user_home.sh"
+      src: "backup_user_home.sh.j2"
+      mode: "0744"
+    with_items: "{{ backup_source_user_homes }}"
+
+  - name: create exclude list
+    become: yes
+    template:
+      dest: "/home/{{item.user_name}}/bin/backup/exclude_files.lst"
+      src: "exclude_files.lst.j2"
+      mode: "0644"
+    with_items: "{{ backup_source_user_homes }}"
+    
