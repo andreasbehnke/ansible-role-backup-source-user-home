@@ -29,4 +29,12 @@
       src: "exclude_files.lst.j2"
       mode: "0644"
     with_items: "{{ backup_source_user_homes }}"
+
+  - name: create desktop autostart configuration
+    become: yes
+    template:
+      dest: "/home/{{item.user_name}}/.config/autostart/backup.desktop"
+      src: "backup.desktop.j2"
+      mode: "0744"
+    with_items: "{{ backup_source_user_homes }}"
     
