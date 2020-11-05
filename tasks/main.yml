@@ -20,6 +20,8 @@
       dest: "/home/{{item.user_name}}/bin/backup/backup_user_home.sh"
       src: "backup_user_home.sh.j2"
       mode: "0744"
+      group: "{{item.user_name}}"
+      owner: "{{item.user_name}}"
     with_items: "{{ backup_source_user_homes }}"
 
   - name: create exclude list
@@ -28,6 +30,8 @@
       dest: "/home/{{item.user_name}}/bin/backup/exclude_files.lst"
       src: "exclude_files.lst.j2"
       mode: "0644"
+      group: "{{item.user_name}}"
+      owner: "{{item.user_name}}"
     with_items: "{{ backup_source_user_homes }}"
 
   - name: create desktop autostart configuration
@@ -36,5 +40,7 @@
       dest: "/home/{{item.user_name}}/.config/autostart/backup.desktop"
       src: "backup.desktop.j2"
       mode: "0744"
+      group: "{{item.user_name}}"
+      owner: "{{item.user_name}}"
     with_items: "{{ backup_source_user_homes }}"
     
