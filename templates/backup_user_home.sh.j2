@@ -1,8 +1,13 @@
-errormessages=$(rsync -a --exclude-from=/home/{{item.user_name}}/bin/backup/exclude_files.lst /home/{{item.user_name}} {{item.user_remote_name}}@{{item.backup_target_host}}:backup 2>&1)
+wifi_ssid=$(iwgetid --raw)
 
-if [ -z "$errormessages" ]
+if [ "$wifi_ssid" = "{{item.backup_wifi_ssid}}" ]
 then
-    notify-send "Daily home backup" "Daily home backup finished successful" --icon=dialog-information
-else
-    notify-send "Daily home backup failed" "$errormessages" --icon=dialog-warning
+    errormessages=$(rsync -a --exclude-from=/home/{{item.user_name}}/bin/backup/exclude_files.lst /home/{{item.user_name}} {{item.user_remote_name}}@{{item.backup_target_host}}:backup 2>&1)
+
+    if [ -z "$errormessages" ]
+    then
+        notify-send "Daily home backup" "Daily home backup finished successful" --icon=dialog-information
+    else
+        notify-send "Daily home backup failed" "$errormessages" --icon=dialog-warning
+    fi
 fi
